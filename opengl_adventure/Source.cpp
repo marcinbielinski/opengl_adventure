@@ -28,12 +28,21 @@ const char* vertexShaderSource =    "#version 450 core\n"
 //                                    "}\n";
 
 // DARK RED
+//const char* fragmentShaderSource =  "#version 450 core\n"
+//                                    "out vec4 FragColor; \n"
+//                                    "in vec4 vertexColor; \n"
+//                                    "void main()\n"
+//                                    "{\n"
+//                                    "    FragColor = vertexColor; \n"
+//                                    "}\n";
+
+// UNIFORM SHADER - global variable
 const char* fragmentShaderSource =  "#version 450 core\n"
                                     "out vec4 FragColor; \n"
-                                    "in vec4 vertexColor; \n"
+                                    "uniform vec4 ourColor; \n"
                                     "void main()\n"
                                     "{\n"
-                                    "    FragColor = vertexColor; \n"
+                                    "    FragColor = ourColor; \n"
                                     "}\n";
 
 // ------------------ VERTICES (ENABLE ONE) --------------------
@@ -216,11 +225,18 @@ int main() {
         glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT);
 
+        // Change color over time with global uniform shader
+        float timeValue = glfwGetTime();
+        float greenValue = (sin(timeValue) / 2.0f) + 0.5f;
+        int vertexColorLocation = glGetUniformLocation(shaderProgram, "ourColor");
+        glUseProgram(shaderProgram);
+        glUniform4f(vertexColorLocation, 0.0f, greenValue, 0.0f, 1.0f);
+
         // ++++++++++++++++++++++++++++++++++++++++++++++++++++++++ RUN OPTIONS ++++++++
         // run program (ONE TRIANGLE (ENABLE ONE))
-        glUseProgram(shaderProgram);
+        //glUseProgram(shaderProgram);
         glBindVertexArray(VAO);
-        glDrawArrays(GL_TRIANGLES, 0, 6); // LAST PARAM - AMOUNT OF VERTICES
+        glDrawArrays(GL_TRIANGLES, 0, 3); // LAST PARAM - AMOUNT OF VERTICES
         
         // run program (TWO TRIANGLES (ENABLE ONE))
         /*glUseProgram(shaderProgram);
@@ -233,8 +249,9 @@ int main() {
         glBindVertexArray(0);
         // ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
         // check and call events and swap the buffers
-        glfwPollEvents();
         glfwSwapBuffers(window);
+        glfwPollEvents();
+
     }
     glfwTerminate();
     //int nrAttributes;
