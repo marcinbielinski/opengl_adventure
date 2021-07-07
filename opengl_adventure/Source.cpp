@@ -1,6 +1,7 @@
 #include <iostream>
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
+//#include "Shader.h"
 
 // VERTEX shader source to dynamically compile it at run-time
 //const char* vertexShaderSource =    "#version 450 core\n"
@@ -20,14 +21,26 @@
 //                                    "}\n";
 
 // VERTEX SHADER ADJUSTED FOR THREE-WAY - RECEIVE COLOR VALUE AS A VERTEX ATTRIB INPUT
+//const char* vertexShaderSource =    "#version 450 core\n"
+//                                    "layout(location = 0) in vec3 aPos; \n"
+//                                    "layout(location = 1) in vec3 aColor; \n"
+//                                    "out vec3 ourColor; \n"
+//                                    "void main()\n"
+//                                    "{\n"
+//                                    "    gl_Position = vec4(aPos, 1.0); \n"
+//                                    "    ourColor = aColor; \n"
+//                                    "}\n";
+// VERTEX SHADER ADJUSTED FOR THREE-WAY OFFSET WITH OUT KEYWORD
 const char* vertexShaderSource =    "#version 450 core\n"
                                     "layout(location = 0) in vec3 aPos; \n"
                                     "layout(location = 1) in vec3 aColor; \n"
-                                    "out vec3 ourColor; \n"
+                                    "out vec3 ourPosition; \n"
+
                                     "void main()\n"
                                     "{\n"
                                     "    gl_Position = vec4(aPos, 1.0); \n"
-                                    "    ourColor = aColor; \n"
+                                    "    // ourColor = aColor; \n"
+                                    "    ourPosition = aPos; \n"
                                     "}\n";
 
 // FRAGMENT shader source
@@ -57,13 +70,31 @@ const char* vertexShaderSource =    "#version 450 core\n"
 //                                    "}\n";
 
 // THREE-WAY TRIANGLE SHADER
+//const char* fragmentShaderSource =  "#version 450 core\n"
+//                                    "out vec4 FragColor; \n"
+//                                    "in vec3 ourColor; \n"
+//                                    "void main()\n"
+//                                    "{\n"
+//                                    "   FragColor = vec4(ourColor, 1.0); \n"
+//                                    "}\n";
+ 
+// UNIFORM SHADER - OFFSET- global variable
 const char* fragmentShaderSource =  "#version 450 core\n"
                                     "out vec4 FragColor; \n"
-                                    "in vec3 ourColor; \n"
+                                    "in vec3 ourPosition; \n"
+
                                     "void main()\n"
                                     "{\n"
-                                    "   FragColor = vec4(ourColor, 1.0); \n"
+                                    "    FragColor = vec4(ourPosition, 1.0); \n"
                                     "}\n";
+
+
+// CUSTOM SHADER
+//Shader ourShader("path/to/shaders/shader.vs", "path/to/shaders/shader.fs");
+
+//ourShader.use();
+//ourShader.setFloat("someUniform", 1.0f);
+//DrawStuff();
 
 // ------------------ VERTICES (ENABLE ONE) --------------------
 // ONE TRIANGLE
@@ -94,11 +125,27 @@ const char* fragmentShaderSource =  "#version 450 core\n"
 //};
 
 // THREE-WAY COLORED TRIANGLE (GRADIENT)
+//float vertices[] = {
+//    // positions        //colors
+//     0.5f, -0.5f, 0.0f, 1.0f, 0.0f, 0.0f, // bottom right
+//    -0.5f, -0.5f, 0.0f, 0.0f, 1.0f, 0.0f, // bottom left
+//     0.0f,  0.5f, 0.0f, 0.0f, 0.0f, 1.0f // top
+//};
+
+// THREE-WAY COLORED TRIANGLE - UPSIDE DOWN(GRADIENT)
+//float vertices[] = {
+//    // positions        //colors
+//     0.5f,  0.5f, 0.0f, 1.0f, 0.0f, 0.0f, // TOP right
+//    -0.5f,  0.5f, 0.0f, 0.0f, 1.0f, 0.0f, // TOP left
+//     0.0f, -0.5f, 0.0f, 0.0f, 0.0f, 1.0f // BOTTOM
+//};
+
+// THREE-WAY COLORED TRIANGLE - UPSIDE DOWN - WITH OFFSET (GRADIENT)
 float vertices[] = {
     // positions        //colors
-     0.5f, -0.5f, 0.0f, 1.0f, 0.0f, 0.0f, // bottom right
-    -0.5f, -0.5f, 0.0f, 0.0f, 1.0f, 0.0f, // bottom left
-     0.0f,  0.5f, 0.0f, 0.0f, 0.0f, 1.0f // top
+     0.5f,  0.5f, 0.0f, 1.0f, 0.0f, 0.0f, // TOP right
+    -0.5f,  0.5f, 0.0f, 0.0f, 1.0f, 0.0f, // TOP left
+     0.0f, -0.5f, 0.0f, 0.0f, 0.0f, 1.0f // BOTTOM
 };
 
 // ------------------------------------------------------------
@@ -254,6 +301,7 @@ int main() {
     {
         // input
         processInput(window);
+        
 
         // rendering commands
         glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
