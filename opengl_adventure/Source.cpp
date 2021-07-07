@@ -203,7 +203,7 @@ int main() {
         glUseProgram(shaderProgram);
         glBindVertexArray(VAO);
         glDrawArrays(GL_TRIANGLES, 0, 6); // LAST PARAM - AMOUNT OF VERTICES
-
+        
         // run program (TWO TRIANGLES (ENABLE ONE))
         /*glUseProgram(shaderProgram);
         glBindVertexArray(VAO);
@@ -219,7 +219,9 @@ int main() {
         glfwSwapBuffers(window);
     }
     glfwTerminate();
-
+    int nrAttributes;
+    glGetIntegerv(GL_MAX_VERTEX_ATTRIBS, &nrAttributes);
+    std::cout << "Maximum nr of vertex attributes supported: " << nrAttributes << std::endl;
     return 0;
 }
 
