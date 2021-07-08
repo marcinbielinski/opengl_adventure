@@ -31,17 +31,17 @@
 //                                    "    ourColor = aColor; \n"
 //                                    "}\n";
 // VERTEX SHADER ADJUSTED FOR THREE-WAY OFFSET WITH OUT KEYWORD
-const char* vertexShaderSource =    "#version 450 core\n"
-                                    "layout(location = 0) in vec3 aPos; \n"
-                                    "layout(location = 1) in vec3 aColor; \n"
-                                    "out vec3 ourPosition; \n"
+const char* vertexShaderSource = "#version 450 core\n"
+"layout(location = 0) in vec3 aPos; \n"
+"layout(location = 1) in vec3 aColor; \n"
+"out vec3 ourPosition; \n"
 
-                                    "void main()\n"
-                                    "{\n"
-                                    "    gl_Position = vec4(aPos, 1.0); \n"
-                                    "    // ourColor = aColor; \n"
-                                    "    ourPosition = aPos; \n"
-                                    "}\n";
+"void main()\n"
+"{\n"
+"    gl_Position = vec4(aPos, 1.0); \n"
+"    // ourColor = aColor; \n"
+"    ourPosition = aPos; \n"
+"}\n";
 
 // FRAGMENT shader source
 //const char* fragmentShaderSource =  "#version 450 core\n"
@@ -77,16 +77,16 @@ const char* vertexShaderSource =    "#version 450 core\n"
 //                                    "{\n"
 //                                    "   FragColor = vec4(ourColor, 1.0); \n"
 //                                    "}\n";
- 
-// UNIFORM SHADER - OFFSET- global variable
-const char* fragmentShaderSource =  "#version 450 core\n"
-                                    "out vec4 FragColor; \n"
-                                    "in vec3 ourPosition; \n"
 
-                                    "void main()\n"
-                                    "{\n"
-                                    "    FragColor = vec4(ourPosition, 1.0); \n"
-                                    "}\n";
+// UNIFORM SHADER - OFFSET- global variable
+const char* fragmentShaderSource = "#version 450 core\n"
+"out vec4 FragColor; \n"
+"in vec3 ourPosition; \n"
+
+"void main()\n"
+"{\n"
+"    FragColor = vec4(ourPosition, 1.0); \n"
+"}\n";
 
 
 // CUSTOM SHADER
@@ -172,7 +172,7 @@ int main() {
     glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
     glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
     glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
-    
+
     // creating window object
     GLFWwindow* window = glfwCreateWindow(800, 600, "OpenGL Adventure", NULL, NULL);
     if (window == NULL)
@@ -206,7 +206,7 @@ int main() {
     /*unsigned int VAO2;
     glGenVertexArrays(1, &VAO2);
     glBindVertexArray(VAO2);*/
-    
+
     // ------------- VBO vertex buffer object --------------------------------
     unsigned int VBO;
     glGenBuffers(1, &VBO);
@@ -301,7 +301,7 @@ int main() {
     {
         // input
         processInput(window);
-        
+
 
         // rendering commands
         glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
@@ -319,7 +319,7 @@ int main() {
         //glUseProgram(shaderProgram);
         glBindVertexArray(VAO);
         glDrawArrays(GL_TRIANGLES, 0, 3); // LAST PARAM - AMOUNT OF VERTICES
-        
+
         // run program (TWO TRIANGLES (ENABLE ONE))
         /*glUseProgram(shaderProgram);
         glBindVertexArray(VAO);
